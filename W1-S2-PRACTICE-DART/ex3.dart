@@ -5,7 +5,7 @@ void main (){
   var passed = scores.where((score) =>score>=50).toList();
 
   print(passed);
-  print("${passed.length} student has passe");
+  print("${passed.length} student has passed");
 
 }
 
