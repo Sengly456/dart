@@ -1,6 +1,3 @@
-
-import 'dart:typed_data';
-
 class Distance{
   final double cms;
   final double meters;
@@ -25,9 +22,10 @@ class Distance{
       this.meters=cms/100,
       this.kms=cms/100000;
 
+
 }
 void main(){
   Distance d1=Distance.kms(3.4);
   Distance d2=Distance.meters(1000);
-  print((d1+d2).kms);
+  print("Total:${(d1+d2).kms}");
 }
