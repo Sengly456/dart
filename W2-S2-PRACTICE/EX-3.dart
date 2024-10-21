@@ -1,27 +1,49 @@
 class MyDuration {
+  final int _totalMilliseconds; // Renamed from _milliseconds
+
+  MyDuration({required int totalMilliseconds})
+      : _totalMilliseconds = totalMilliseconds;
   
+  int get totalMilliseconds => _totalMilliseconds; // Renamed from milliseconds
 
-//   // Display the duration in a readable format
-//   @override
-//   String toString() {
-//     int seconds = (_milliseconds / 1000).round();
-//     int minutes = (seconds / 60).floor();
-//     seconds = seconds % 60;
-//     int hours = (minutes / 60).floor();
-//     minutes = minutes % 60;
-//     return '$hours hours, $minutes minutes, $seconds seconds';
-//   }
-// }
+  MyDuration.fromHours(int hours)
+      : this(totalMilliseconds: hours * 60 * 60 * 1000);
+  
+  MyDuration.fromMinutes(int minutes)
+      : this(totalMilliseconds: minutes * 60 * 1000);
+  
+  MyDuration.fromSeconds(int seconds)
+      : this(totalMilliseconds: seconds * 1000);
 
-// void main() {
-//   MyDuration duration1 = MyDuration.fromHours(3); // 3 hours
-//   MyDuration duration2 = MyDuration.fromMinutes(45); // 45 minutes
-//   print(duration1 + duration2); // 3 hours, 45 minutes, 0 seconds
-//   print(duration1>duration2); //true
+  MyDuration operator +(MyDuration other) {
+    return MyDuration(
+        totalMilliseconds: totalMilliseconds + other.totalMilliseconds);
+  }
 
-//   try {
-//     print(duration2 - duration1); // This will throw an exception
-//   } catch (e) {
-//     print(e); 
-//   }
+  MyDuration operator -(MyDuration other) {
+    int result = totalMilliseconds - other.totalMilliseconds;
+    return result < 0
+        ? throw ArgumentError("The result can't be negative")
+        : MyDuration(totalMilliseconds: result);
+  }
+
+  bool operator >(MyDuration other) {
+    return this.totalMilliseconds > other.totalMilliseconds;
+  }
+
+  @override
+  String toString() {
+    int totalSeconds = (_totalMilliseconds / 1000).round(); // Renamed from seconds
+    int totalMinutes = (totalSeconds / 60).floor(); // Renamed from minutes
+    totalSeconds = totalSeconds % 60;
+    int totalHours = (totalMinutes / 60).floor(); // Renamed from hours
+    totalMinutes = totalMinutes % 60;
+    return '$totalHours hours, $totalMinutes minutes, $totalSeconds seconds';
+  }
+}
+
+void main() {
+  MyDuration dur1 = MyDuration.fromHours(30);
+  MyDuration dur2 = MyDuration.fromMinutes(90);
+  print(dur1 - dur2);
 }
